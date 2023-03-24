@@ -1,11 +1,13 @@
 {
   "name": "parceldemo",
   "version": "1.0.0",
-  "main": "index.js",
-  "source": "src/index.html",
+  "source": "src/index.js",
+  "main": "dist/main.js",
+  "module": "dist/module.js",
   "scripts": {
     "dev": "parcel",
-    "build": "parcel build"
+    "build": "parcel build",
+    "watch": "parcel watch"
   },
   "dependencies": {},
   "devDependencies": {
