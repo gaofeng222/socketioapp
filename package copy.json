@@ -1,14 +1,15 @@
 {
   "name": "parceldemo",
   "version": "1.0.0",
-  "source": "./src/index.html",
+  "source": "./src/server.js",
+  "main": "dist/main.js",
+  "module": "dist/module.js",
   "scripts": {
     "dev": "parcel",
     "build": "parcel build",
     "watch": "parcel watch"
   },
   "dependencies": {
-    "jquery": "^3.6.4",
     "mysql": "^2.18.1",
     "nodemon": "^2.0.22",
     "react": "^18.2.0",
