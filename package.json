@@ -1,17 +1,28 @@
 {
   "name": "parceldemo",
   "version": "1.0.0",
-  "source": "src/index.js",
-  "main": "dist/main.js",
-  "module": "dist/module.js",
+  "source": [
+    "src/home.html",
+    "src/profile.html"
+  ],
   "scripts": {
     "dev": "parcel",
     "build": "parcel build",
     "watch": "parcel watch"
   },
-  "dependencies": {},
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
   "devDependencies": {
-    "parcel": "^2.8.3"
+    "@parcel/transformer-sass": "2.8.3",
+    "parcel": "^2.8.3",
+    "process": "^0.11.10"
+  },
+  "@parcel/bundler-default": {
+    "minBundles": 1,
+    "minBundleSize": 3000,
+    "maxParallelRequests": 20
   },
   "keywords": [],
   "author": "",
