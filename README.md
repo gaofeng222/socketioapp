@@ -5,27 +5,11 @@
 ## 效果展示
 
 <p align="center">
-    <img src="./res1.gif" />
-</p>
-
-<p align="center">
-    <img src="./res2.gif" />
-</p>
-
-<p align="center">
-    <img src="./s1.png" />
-</p>
-<p align="center">
-    <img src="./s2.png" />
-</p>
-<p align="center">
-    <img src="./s3.png" />
-</p>
-<p align="center">
-    <img src="./s4.png" />
-</p>
-<p align="center">
-    <img src="./s5.png" />
+    <img src="https://s1.ax1x.com/2023/03/26/ppr14Gn.png" alt="ppr14Gn.png" border="0">
+    <img src="https://s1.ax1x.com/2023/03/26/ppr1hPs.png" alt="ppr1hPs.png" border="0">
+   <img src="https://s1.ax1x.com/2023/03/26/ppr1RaQ.png" alt="ppr1RaQ.png" border="0">
+   <img src="https://s1.ax1x.com/2023/03/26/ppr12Vg.png" alt="ppr12Vg.png" border="0">
+    <img src="https://s1.ax1x.com/2023/03/26/ppr1W5j.png" alt="ppr1W5j.png" border="0">
 </p>
 
 ## 项目结构
