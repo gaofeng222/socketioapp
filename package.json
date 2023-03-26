@@ -1,7 +1,10 @@
 {
   "name": "parceldemo",
   "version": "1.0.0",
-  "source": "./src/index.html",
+  "source": [
+    "./src/index.html",
+    "./src/chat.html"
+  ],
   "scripts": {
     "dev": "parcel",
     "build": "parcel build",

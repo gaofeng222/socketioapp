@@ -15,6 +15,7 @@ const wsSocket = new Server(httpServer, { cors: true })
 // const wsSocket = io.listen(httpServer)
 let cur_userId = 0,
   cur_userName = ''
+let allSockets = []
 wsSocket.on('connection', (sock) => {
   sock.on('reg', (res) => {
     // console.log(res, 'res')
@@ -47,11 +48,11 @@ wsSocket.on('connection', (sock) => {
       })
     }
   })
-
+  allSockets.push(sock)
   sock.on('login', (res) => {
     console.log(res, 'res')
     if (!reg.test(res.username) || !reg.test(res.password)) {
-      sock.emit('reg_ret', { code: 1, msg: '用户名或密码不符合规范' })
+      sock.emit('lgn_ret', { code: 1, msg: '用户名或密码不符合规范' })
     } else {
       db.getConnection((err, conn) => {
         let sqlSearch = `select * from user_table WHERE username = ?`
@@ -61,9 +62,9 @@ wsSocket.on('connection', (sock) => {
         db.query(sqlSearch, parmas1, (err, docs) => {
           // console.log('insetSql222')
           if (err) {
-            sock.emit('reg_ret', { code: 1, msg: '数据库有误' })
+            sock.emit('lgn_ret', { code: 1, msg: '数据库有误' })
           } else if (docs.length == 0) {
-            sock.emit('reg_ret', { code: 1, msg: '此用户不存在' })
+            sock.emit('lgn_ret', { code: 1, msg: '此用户不存在' })
           } else {
             let params = [`${res.username}`, `${res.password}`]
             let params2 = [docs[0].id]
@@ -71,15 +72,40 @@ wsSocket.on('connection', (sock) => {
             cur_userName = docs[0].username
             db.query(updateSql, params2, (err, docs) => {
               if (err) {
-                sock.emit('reg_ret', { code: 1, msg: '数据库有误' })
+                sock.emit('lgn_ret', { code: 1, msg: '数据库有误' })
               } else {
-                sock.emit('reg_ret', { code: 0, msg: '登录成功' })
+                sock.emit('lgn_ret', { code: 0, msg: '登录成功' })
               }
             })
           }
         })
 
         conn.release()
+      })
+    }
+  })
+
+  sock.on('msg', (res) => {
+    console.log(res, 'msg')
+    if (!res) {
+      sock.emit('msg_ret', {
+        code: 1,
+        msg: '消息文本不能为空'
+      })
+    } else {
+      //广播事件
+      allSockets.forEach((ele) => {
+        if (ele == sock) return
+
+        ele.emit('msg', {
+          code: 0,
+          msg: res.msg,
+          cur_userName: res.cur_username
+        })
+      })
+      sock.emit('msg_ret', {
+        code: 0,
+        msg: '发送成功'
       })
     }
   })
@@ -93,30 +119,15 @@ wsSocket.on('connection', (sock) => {
         if (err) {
           console.log('数据库有误')
         } else {
-          sock.emit('reg_ret', { code: 0, msg: `${cur_userName}退出` })
+          sock.emit('logout_ret', { code: 0, msg: `${cur_userName}退出` })
           cur_userName = ''
           cur_userId = ''
+
+          allSockets = allSockets.filter((ele) => ele != sock)
         }
       })
     })
   })
 })
 
-// wsSocket.on('disconnect', () => {
-//   console.log('退出')
-//   let params3 = [cur_userName]
-//   db.getConnection((err, conn) => {
-//     let updateSqlOffLine = `update user_table set online=0 where id=?`
-//     db.query(updateSqlOffLine, params3, (err, docs) => {
-//       if (err) {
-//         // sock.emit('reg_ret', { code: 1, msg: '数据库有误' })
-//         console.log('数据库有误')
-//       } else {
-//         sock.emit('reg_ret', { code: 0, msg: `${cur_userName}退出` })
-//         cur_userName = ''
-//         cur_userId = ''
-//       }
-//     })
-//   })
-// })
 httpServer.listen(8080)
